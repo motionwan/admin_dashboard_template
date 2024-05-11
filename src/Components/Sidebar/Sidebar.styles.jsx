@@ -70,8 +70,9 @@ export const SidebarLinkContainer = styled.div`
     !isActive ? `transparent` : theme.bg3};
   border-radius: ${themeVariables.borderRadius};
   margin: 8px 0;
+
   &:hover {
-    box-shadow: inset 0px 0px 0px ${({ theme }) => theme.bg3};
+    background: ${({ theme }) => theme.bg3};
   }
 `;
 
@@ -80,6 +81,7 @@ export const SidebarLink = styled(Link)`
   align-items: center;
   text-decoration: none;
   color: inherit;
+  transition: max-height 5s ease-in-out;
   font-size: 16px;
   padding: calc(${themeVariables.smallSpacing} - 2px);
 
@@ -87,6 +89,39 @@ export const SidebarLink = styled(Link)`
     display: none;
   }
 `;
+
+//begining of sublink
+export const SubLinksContainer = styled.div`
+  padding-left: 60px; /* Adjust as needed */
+  background-color: ${({ theme }) => theme.bg3};
+  font-size: 10px;
+  width: 100%;
+  svg {
+    color: ${({ theme }) => theme.text};
+  }
+`;
+
+export const SubLink = styled(Link)`
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  font-size: 16px;
+  padding: 8px 0; /* Adjust padding as needed */
+  &:hover {
+    background-color: ${({ theme }) => theme.bg};
+  }
+`;
+
+export const SubLinkIcon = styled.div`
+  margin-right: 10px; /* Adjust margin as needed */
+`;
+
+export const SubLinkLabel = styled.span`
+  color: ${({ theme }) => theme.text};
+`;
+
+// end of sublink
 
 export const SidebarLinkIcon = styled.div`
   padding: ${themeVariables.smallSpacing} ${themeVariables.midSpacing};

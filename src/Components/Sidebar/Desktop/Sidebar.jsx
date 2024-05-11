@@ -1,4 +1,6 @@
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { selectIsOpen } from '../../../redux/features/Sidebar/Sidebar.slice';
 import {
   SidebarContainer,
   Sidebar,
@@ -8,29 +10,53 @@ import {
   SidebarLink,
   SidebarLinkIcon,
   SidebarLinkLabel,
-} from '../Sidebar.styles'; // replace with your actual file path
+  SubLinksContainer,
+  SubLink,
+  SubLinkIcon,
+  SubLinkLabel,
+} from '../Sidebar.styles';
 import {
-  SuperAdminDashboardArray,
-  SuperAdminStoreArray,
-  SuperAdminUserArray,
-  SuperAdminOrderArray,
-  SuperAdminMarketingArray,
-} from '../Routes/SuperAdmin.Routes'; // replace with your actual file path
-import { selectIsOpen } from '../../../redux/features/Sidebar/Sidebar.slice';
+  schoolManagementArray,
+  superAdminSchoolArray,
+  SuperAcademicArray,
+  studentArray,
+  administratorArray,
+  accountingArray,
+} from '../Routes/SuperAdmin.Routes';
 
-const Sidebar2 = () => {
+const MainSidebar = () => {
+  const [activeIndexes, setActiveIndexes] = useState({});
   const isOpen = useSelector(selectIsOpen);
 
-  const renderLinks = (array) => {
+  const handleLinkClick = (index, arrayName) => {
+    setActiveIndexes({
+      ...activeIndexes,
+      [arrayName]: activeIndexes[arrayName] === index ? null : index,
+    });
+  };
+
+  const renderLinks = (array, arrayName) => {
     return array.map((item, index) => (
-      <SidebarLinkContainer key={index}>
-        <SidebarLink
-          to={typeof item.path === 'function' ? item.path(item.id) : item.path}
-        >
-          <SidebarLinkIcon>{item.icon}</SidebarLinkIcon>
-          <SidebarLinkLabel>{item.label}</SidebarLinkLabel>
-        </SidebarLink>
-      </SidebarLinkContainer>
+      <React.Fragment key={index}>
+        <SidebarLinkContainer>
+          <SidebarLink onClick={() => handleLinkClick(index, arrayName)}>
+            <SidebarLinkIcon>{item.icon}</SidebarLinkIcon>
+            <SidebarLinkLabel>{item.label}</SidebarLinkLabel>
+          </SidebarLink>
+        </SidebarLinkContainer>
+        {activeIndexes[arrayName] === index && item.subLinks && (
+          <SubLinksContainer>
+            {item.subLinks.map((sublink, idx) => (
+              <SidebarLinkContainer key={idx}>
+                <SubLink to={sublink.path}>
+                  <SubLinkIcon>{sublink.icon}</SubLinkIcon>
+                  <SubLinkLabel>{sublink.label}</SubLinkLabel>
+                </SubLink>
+              </SidebarLinkContainer>
+            ))}
+          </SubLinksContainer>
+        )}
+      </React.Fragment>
     ));
   };
 
@@ -39,14 +65,15 @@ const Sidebar2 = () => {
       <Sidebar isOpen={isOpen}>
         <Logo>{/* Your logo here */}</Logo>
         <SidebarDivider />
-        {renderLinks(SuperAdminDashboardArray)}
-        {renderLinks(SuperAdminStoreArray)}
-        {renderLinks(SuperAdminUserArray)}
-        {renderLinks(SuperAdminOrderArray)}
-        {renderLinks(SuperAdminMarketingArray)}
+        {renderLinks(schoolManagementArray, 'schoolManagementArray')}
+        {renderLinks(superAdminSchoolArray, 'superAdminSchoolArray')}
+        {renderLinks(SuperAcademicArray, 'SuperAcademicArray')}
+        {renderLinks(studentArray, 'studentArray')}
+        {renderLinks(administratorArray, 'administratorArray')}
+        {renderLinks(accountingArray, 'accountingArray')}
       </Sidebar>
     </SidebarContainer>
   );
 };
 
-export default Sidebar2;
+export default MainSidebar;
