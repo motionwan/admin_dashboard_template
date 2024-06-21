@@ -25,26 +25,23 @@ import {
 } from '../Routes/SuperAdmin.Routes';
 
 const MainSidebar = () => {
-  const [activeIndexes, setActiveIndexes] = useState({});
+  const [activeArray, setActiveArray] = useState(null);
   const isOpen = useSelector(selectIsOpen);
 
-  const handleLinkClick = (index, arrayName) => {
-    setActiveIndexes({
-      ...activeIndexes,
-      [arrayName]: activeIndexes[arrayName] === index ? null : index,
-    });
+  const handleLinkClick = (arrayName) => {
+    setActiveArray(activeArray === arrayName ? null : arrayName);
   };
 
   const renderLinks = (array, arrayName) => {
     return array.map((item, index) => (
       <React.Fragment key={index}>
         <SidebarLinkContainer>
-          <SidebarLink onClick={() => handleLinkClick(index, arrayName)}>
+          <SidebarLink onClick={() => handleLinkClick(arrayName)}>
             <SidebarLinkIcon>{item.icon}</SidebarLinkIcon>
             <SidebarLinkLabel>{item.label}</SidebarLinkLabel>
           </SidebarLink>
         </SidebarLinkContainer>
-        {activeIndexes[arrayName] === index && item.subLinks && (
+        {activeArray === arrayName && item.subLinks && (
           <SubLinksContainer>
             {item.subLinks.map((sublink, idx) => (
               <SidebarLinkContainer key={idx}>

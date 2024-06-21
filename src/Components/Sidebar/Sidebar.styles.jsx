@@ -94,8 +94,11 @@ export const SidebarLink = styled(Link)`
 export const SubLinksContainer = styled.div`
   padding-left: 60px; /* Adjust as needed */
   background-color: ${({ theme }) => theme.bg3};
-  font-size: 10px;
+  font-size: 8px;
+  margin-top: 10px;
+  padding: 10px 5px;
   width: 100%;
+  margin-top: 10px;
   svg {
     color: ${({ theme }) => theme.text};
   }
